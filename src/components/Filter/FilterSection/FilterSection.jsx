@@ -18,14 +18,21 @@ export default function FilterSection({ title, active }) {
   const [{ filters }, dispatch] = useStateValue();
   const [expanded, setExpanded] = useState(active || false);
   const [localFilters, updateLocalFilters] = useState([]);
+  const [distance, setDistance] = useState(filters[Distance] || []);
 
   function applyFilter() {
-    console.log("update filters", title, localFilters);
-    dispatch({
-      type: "updateFilters",
-      section: title,
-      newFilters: localFilters
-    });
+    if (title !== "Distance") {
+      dispatch({
+        type: "updateFilters",
+        section: title,
+        newFilters: localFilters
+      });
+    } else {
+      dispatch({
+        type: "updateDistance",
+        newDistance: distance
+      });
+    }
   }
 
   function changeFilter(ev) {
@@ -39,7 +46,7 @@ export default function FilterSection({ title, active }) {
   }
 
   function updateDistance(...args) {
-    console.log("update distance", args);
+    setDistance(args);
   }
 
   useEffect(() => {
@@ -79,7 +86,7 @@ export default function FilterSection({ title, active }) {
       case "Distance":
         return (
           <Distance
-            values={filters["Distance"]}
+            values={distance}
             onChange={updateDistance}
             key="distance"
           />

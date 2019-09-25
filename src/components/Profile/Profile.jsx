@@ -37,13 +37,13 @@ function Profile({ location }) {
     <ProfileStyles fluid={true}>
       <FullLoader />
       <Row style={{ height: "100%" }}>
-        <Col sm={1} style={{ padding: 0 }}></Col>
+        {/* <Col sm={1} style={{ padding: 0 }}></Col> */}
         <Col sm={3} style={{ padding: 0, borderLeft: "1px solid #DFDFDF" }}>
           <Flyout></Flyout>
           <UserProfileControls />
         </Col>
         <Col
-          sm={6}
+          sm={9}
           style={{
             borderLeft: "1px solid #DFDFDF",
             borderRight: "1px solid #DFDFDF",
@@ -52,7 +52,7 @@ function Profile({ location }) {
         >
           <UserProfile></UserProfile>
         </Col>
-        <Col sm={2}>
+        {/* <Col sm={2}>
           <div style={{ marginTop: "20px" }}>
             <h2>Something wrong?</h2>
             <p style={{ fontSize: "1.2rem" }}>
@@ -61,7 +61,7 @@ function Profile({ location }) {
               licensing@commonwealth.com.
             </p>
           </div>
-        </Col>
+        </Col> */}
       </Row>
     </ProfileStyles>
   );

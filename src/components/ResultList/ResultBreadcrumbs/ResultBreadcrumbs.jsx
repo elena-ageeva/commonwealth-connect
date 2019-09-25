@@ -21,12 +21,17 @@ export default function ResultBreadcrumbs({ count }) {
   }
 
   function clearFilter(section, value) {
-    console.log("clearing filter", section, value);
-    dispatch({
-      type: "updateFilters",
-      section,
-      newFilters: filters[section].filter(filterItem => filterItem !== value)
-    });
+    if (section !== "Distance") {
+      dispatch({
+        type: "updateFilters",
+        section,
+        newFilters: filters[section].filter(filterItem => filterItem !== value)
+      });
+    } else {
+      dispatch({
+        type: "clearDistance"
+      });
+    }
   }
 
   function clearFilters() {
@@ -40,12 +45,14 @@ export default function ResultBreadcrumbs({ count }) {
     Object.keys(filters).forEach(filterKey => {
       switch (filterKey) {
         case "Distance":
-          breadCrumbs.push({
-            displayValue: `Within ${filters[filterKey][0]} miles of ${
-              filters[filterKey][1]
-            }`,
-            section: filterKey
-          });
+          if (filters[filterKey][0]) {
+            breadCrumbs.push({
+              displayValue: `Within ${filters[filterKey][0]} miles of ${
+                filters[filterKey][1]
+              }`,
+              section: filterKey
+            });
+          }
           break;
         case "Audience":
           filters[filterKey].forEach(value => {

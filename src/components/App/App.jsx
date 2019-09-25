@@ -77,10 +77,26 @@ const App = () => {
             show: false
           }
         };
+      case "clearDistance":
+        return {
+          ...state,
+          filters: {
+            ...state.filters,
+            Distance: []
+          }
+        };
       case "clearFilters":
         return {
           ...state,
           filters: JSON.parse(JSON.stringify(emptyFilters))
+        };
+      case "updateDistance":
+        return {
+          ...state,
+          filters: {
+            ...state.filters,
+            Distance: action.newDistance
+          }
         };
       case "changeActiveSection":
         return {

@@ -94,7 +94,7 @@ const maploadState = {
 };
 
 export default function Map() {
-  const [{ mapResults }] = useStateValue();
+  const [{ mapResults, user }] = useStateValue();
   const [infoBoxesWithPushPins, updateInfoBoxesWithPushPins] = useState(
     undefined
   );
@@ -172,7 +172,8 @@ export default function Map() {
       {infoBoxesWithPushPins !== undefined && (
         <ReactBingmaps
           bingmapKey={maploadState.bingmapKey}
-          center={[42.36127, -71.25996]}
+          // center={[42.36127, -71.25996]}
+          center={user["Contact Information"]["Primary Address"].value.geocode}
           infoboxesWithPushPins={infoBoxesWithPushPins}
           zoom={9}
           mapTypeId={"grayscale"}

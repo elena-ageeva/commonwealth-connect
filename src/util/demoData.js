@@ -18,11 +18,11 @@ const productionLevels = [
 ];
 
 const businessMixes = [
-  "Fee-only",
-  "Primarily fee-based",
-  "Balanced fee and commission mix",
-  "Primarily commission-based",
-  "Commission-only"
+  "Balanced fee and commission mix (50/50)",
+  "Commission-only (100% of revenue from commission)",
+  "Primarily commission-based (80%+ from commission)",
+  "Fee-only (100% of revenue from fees)",
+  "Primarily fee-based (80%+ of revenue from fees)"
 ];
 
 const affiliationModels = [
@@ -163,14 +163,14 @@ export function generateFakeUser(hidden, practiceName, index) {
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: ["test"]
+        value: []
       },
       Designations: {
         canEdit: false,
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: ["Test"]
+        value: []
       },
       Production: {
         canEdit: false,
@@ -198,7 +198,7 @@ export function generateFakeUser(hidden, practiceName, index) {
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: ["niche"]
+        value: []
       },
       "Business Mix": {
         canEdit: false,
