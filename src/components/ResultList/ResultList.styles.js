@@ -54,11 +54,13 @@ const ResultListStyles = styled.div`
   .result__count__wrapper {
     align-items: center;
     display: flex;
+    flex-direction: column;
     height: 50px;
     font-size: ${props => props.theme.default.smallFontSize};
     justify-content: center;
     position: relative;
   }
+
   .result__count__wrapper::before {
     content: "";
     position: absolute;
@@ -82,6 +84,34 @@ const ResultListStyles = styled.div`
     top: calc(50% - 40px);
     left: calc(50% - 40px);
     width: 80px;
+  }
+`;
+
+export const PaginatorStyles = styled.div`
+  border-radius: 10px;
+  margin-bottom: 5px;
+  max-width: 90%;
+  display: grid;
+  grid-gap: 3px;
+  grid-template-columns: ${props =>
+    `20px repeat(${props.pages}, minmax(50px, 1fr)) 20px`};
+
+  .pager {
+    border-radius: 3px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background: ${props => props.theme.default.lightestGray};
+    transition: all 200ms ease;
+  }
+  .active {
+    color: white;
+    background: ${props => props.theme.default.gray};
   }
 `;
 

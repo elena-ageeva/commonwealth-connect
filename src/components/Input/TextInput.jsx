@@ -26,6 +26,7 @@ export default function TextInput({
         value={value}
         onChange={e => onChange(e.target.value, section, item)}
         placeholder={placeholder}
+        autoComplete="off"
       />
     </TextInputStyles>
   );

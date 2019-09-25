@@ -16,6 +16,7 @@ export default function Checkboxalypse({ values, onChange, masterList }) {
       {lists[masterList].map(item => {
         return (
           <Checkbox
+            key={item}
             onChange={onChange}
             label={item}
             checked={values.indexOf(item) > -1}

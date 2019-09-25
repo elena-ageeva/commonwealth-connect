@@ -33,6 +33,15 @@ export default function ProfileItem({
   useEffect(() => {
     setShow(item.show);
   }, [item.show]);
+
+  function renderAddress(address) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <span>{address.street}</span>
+        <span>{`${address.city}, ${address.state}, ${address.zip}`}</span>
+      </div>
+    );
+  }
   return (
     <UserProfileItemStyles show={show} type={type} itemHidden={item.hidden}>
       {type === "users" && (
@@ -61,8 +70,8 @@ export default function ProfileItem({
                   onChange={updateValue}
                 />
               ) : (
-                item.value
-              )
+                  item.value
+                )
             ) : Array.isArray(item.value) ? (
               item.canEdit ? (
                 <Checkboxalypse
@@ -71,15 +80,10 @@ export default function ProfileItem({
                   values={item.value}
                 />
               ) : (
-                item.value.join(", ")
-              )
-            ) : (
-              Object.keys(item.value)
-                .map(key => {
-                  return item.value[key];
-                })
-                .join(", ")
-            )}
+                  item.value.join(", ")
+                )
+            ) : renderAddress(item.value)
+            }
           </span>
         </>
       )}

@@ -27,6 +27,7 @@ const ResultBreadcrumbsStyles = styled.div`
     grid-gap: 10px;
     width: 100%;
     margin-left: 10px;
+    opacity: ${props => (props.view === "search" ? "1" : "0.75")};
   }
   .result__count {
     font-size: ${props => props.theme.default.smallFontSize};
@@ -56,12 +57,14 @@ const ResultBreadcrumbsStyles = styled.div`
 
   .breadcrumb__label {
     white-space: nowrap;
+    margin-right: ${props => (props.view === "search" ? "0px" : "5px")};
   }
 
   .breadcrumb__close {
     background: none;
     border: none;
     outline: none;
+    display: ${props => (props.view === "search" ? "inline" : "none")};
   }
 
   .breadcrumb__close__icon {

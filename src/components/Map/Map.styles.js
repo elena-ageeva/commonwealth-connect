@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useTransition, animated } from "react-spring";
 
 const MapStyles = styled.div`
   height: 100%;
@@ -75,6 +76,19 @@ const MapStyles = styled.div`
 
   .infobox__control__icon {
     font-size: ${props => props.theme.default.largerFontSize};
+  }
+
+  .office__user__list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+  }
+
+  .user__list__item {
+    font-size: ${props => props.theme.default.baseFontSize};
+    padding: 0;
+    margin: 0;
   }
 `;
 
