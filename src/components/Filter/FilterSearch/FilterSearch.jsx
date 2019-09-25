@@ -3,14 +3,26 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
+// STATE
+import { useStateValue } from "../../../state";
+
 // STYLES
 import FilterSearchStyles from "./FilterSearch.styles";
 
 import { TextInput } from "../../Input";
 
 export default function FilterSearch() {
-  const [searchTerm, setSearchTerm] = useState("");
-
+  const [{ filters }, dispatch] = useStateValue();
+  const [searchTerm, setSearchTerm] = useState(filters.searchTerm || "");
+  function handleSearchTerm(value) {
+    setSearchTerm(value);
+  }
+  function search() {
+    dispatch({
+      type: "setSearchTerm",
+      searchTerm
+    });
+  }
   return (
     <FilterSearchStyles>
       <div className="input__wrapper">
@@ -19,9 +31,11 @@ export default function FilterSearch() {
           placeholder="Search by first, last, or practice name"
           borderless
           value={searchTerm}
-          onChange={setSearchTerm}
+          onChange={handleSearchTerm}
         ></TextInput>
-        <button className="search__button">Search</button>
+        <button onClick={search} className="search__button">
+          Search
+        </button>
       </div>
     </FilterSearchStyles>
   );

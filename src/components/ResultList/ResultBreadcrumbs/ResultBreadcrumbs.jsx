@@ -21,7 +21,11 @@ export default function ResultBreadcrumbs({ count }) {
   }
 
   function clearFilter(section, value) {
-    if (section !== "Distance") {
+    if (section === "searchTerm") {
+      dispatch({
+        type: "clearSearchTerm"
+      });
+    } else if (section !== "Distance") {
       dispatch({
         type: "updateFilters",
         section,
@@ -44,6 +48,16 @@ export default function ResultBreadcrumbs({ count }) {
     const breadCrumbs = [];
     Object.keys(filters).forEach(filterKey => {
       switch (filterKey) {
+        case "searchTerm":
+          const value = filters.searchTerm;
+          if (value && value.length > 0) {
+            breadCrumbs.push({
+              displayValue: value,
+              section: filterKey,
+              value
+            });
+          }
+          break;
         case "Distance":
           if (filters[filterKey][0]) {
             breadCrumbs.push({

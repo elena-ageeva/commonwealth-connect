@@ -21,6 +21,7 @@ import generateDemoData from "../../util/demoData";
 const demoData = generateDemoData();
 
 const emptyFilters = {
+  searchTerm: "",
   Audience: [],
   Distance: [],
   "Practice Size": [],
@@ -41,6 +42,7 @@ const App = () => {
     activeSection: undefined,
     directory: demoData.directory,
     filters: {
+      searchTerm: undefined,
       Audience: ["Advisors"],
       Distance: [25, "02453"],
       "Practice Size": [],
@@ -76,6 +78,16 @@ const App = () => {
             ...state.modal,
             show: false
           }
+        };
+      case "setSearchterm":
+        return {
+          ...state,
+          filters: { ...state.filters, searchTerm: action.searchTerm }
+        };
+      case "clearSearchTerm":
+        return {
+          ...state,
+          filters: { ...state.filters, searchTerm: undefined }
         };
       case "clearDistance":
         return {
