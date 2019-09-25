@@ -1,0 +1,17 @@
+* {
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  user-select: none;
+}
+
+html {
+  font-size: 10px;
+}
+
+#MicrosoftNav {
+  display: none;
+}
+
+.bm_bottomLeftOverlay,
+.bm_bottomRightOverlay {
+  display: none;
+}

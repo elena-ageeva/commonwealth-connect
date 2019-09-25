@@ -1,0 +1,37 @@
+/*temporary until i can figure out the styled component stuff*/
+
+.card.profile-card {
+	background-color: #F2F2F2;
+	border-radius: 0;
+	border: 0;
+	max-height: 80vh;
+}
+.card.profile-card .card-title p {
+    font-size: 1rem;
+    font-weight: normal;
+}
+.card.profile-card .card-text {
+	max-height: 100%;
+	overflow-y: scroll;
+}
+.card.profile-card .card-image {
+	border-radius: 50%;
+	width: 100%;
+	height: auto;
+}
+.card.profile-card .contact-icons {
+	font-size: 100%;
+	color: #006699;
+}
+.card.profile-card .profile-header {
+	font-size: 0.9rem;
+	font-weight: normal;
+	color: #7F7F7F;
+	word-break: keep-all;
+}
+.card.profile-card .profile-card--info ul,
+.card.profile-card .profile-card--info ul li  {
+	list-style-type: none;
+	margin-left: 0;
+	padding-left: 0;
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" width="300.000000pt" height="300.000000pt" preserveAspectRatio="xMidYMid meet" version="1.0" viewBox="0 0 300.000000 300.000000">
+    <g fill="#006699" stroke="none" transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)">
+        <path d="M1447 2748 c-340 -588 -477 -827 -477 -837 0 -8 72 -54 182 -115 27
+-15 116 -67 200 -117 125 -74 156 -89 173 -81 11 5 120 68 240 139 121 72 235
+138 253 147 17 9 32 21 32 26 0 5 -47 89 -103 187 -150 258 -358 619 -396 686
+-18 31 -36 57 -41 57 -5 0 -33 -42 -63 -92z" opacity="0.5">
+            <animate id="animation1" attributeName="opacity" begin="0s;animation2.end+0.75" dur="0.15s" from="0.5" to="1"/>
+            <animate id="animation2" attributeName="opacity" begin="animation1.end" dur="0.15s" from="1" to="0.5"/>
+        </path>
+        <path d="M2043 1593 c-50 -87 -141 -244 -202 -350 -61 -105 -111 -195 -111
+-200 1 -4 93 -61 205 -126 l204 -117 187 110 c102 60 190 110 194 110 4 0 12
+6 18 13 8 9 -15 57 -91 189 -56 97 -147 255 -202 352 -55 96 -102 175 -105
+176 -3 0 -46 -71 -97 -157z" opacity="0.5">
+            <animate id="animation3" attributeName="opacity" begin="0.15s;animation4.end+0.75" dur="0.15s" from="0.5" to="1"/>
+            <animate id="animation4" attributeName="opacity" begin="animation3.end" dur="0.15s" from="1" to="0.5"/>
+        </path>
+        <path d="M2587 803 c-24 -43 -92 -160 -151 -261 -58 -101 -106 -187 -106 -192
+0 -7 45 -35 225 -138 83 -47 83 -47 118 -27 180 104 267 158 267 167 0 15
+-293 527 -302 528 -3 0 -26 -35 -51 -77z" opacity="0.5">
+            <animate id="animation5" attributeName="opacity" begin="0.3s;animation6.end+0.75" dur="0.15s" from="0.5" to="1"/>
+            <animate id="animation6" attributeName="opacity" begin="animation5.end" dur="0.15s" from="1" to="0.5"/>
+        </path>
+        <path d="M1462 813 c-131 -225 -262 -457 -262 -463 0 -9 293 -180 308 -180 6
+0 55 26 109 58 54 33 122 72 150 88 l53 30 -88 150 c-48 83 -116 203 -152 267
+-36 64 -68 116 -72 117 -4 0 -25 -30 -46 -67z" opacity="0.5">
+            <animate id="animation7" attributeName="opacity" begin="0.45s;animation8.end+0.75" dur="0.15s" from="0.5" to="1"/>
+            <animate id="animation8" attributeName="opacity" begin="animation7.end" dur="0.15s" from="1" to="0.5"/>
+        </path>
+        <path d="M360 870 c0 -5 -14 -33 -31 -62 -105 -178 -259 -449 -259 -457 0 -10
+270 -171 298 -177 18 -4 304 157 310 174 3 9 -46 97 -206 372 -31 52 -63 110
+-71 128 -14 30 -41 45 -41 22z" opacity="0.5">
+            <animate id="animation11" attributeName="opacity" begin="0.6s;animation12.end+0.75" dur="0.15s" from="0.5" to="1"/>
+            <animate id="animation12" attributeName="opacity" begin="animation11.end" dur="0.15s" from="1" to="0.5"/>
+        </path>
+        <path d="M765 1563 c-59 -104 -150 -260 -202 -349 -51 -88 -93 -165 -93 -170
+0 -5 28 -25 63 -45 34 -19 125 -73 203 -118 l141 -82 84 50 c46 27 139 81 207
+121 l123 71 -19 32 c-43 72 -283 489 -333 579 -30 54 -57 97 -60 98 -3 0 -54
+-84 -114 -187z" opacity="0.5">
+            <animate id="animation9" attributeName="opacity" begin="0.75s;animation10.end+0.75" dur="0.15s" from="0.5" to="1"/>
+            <animate id="animation10" attributeName="opacity" begin="animation9.end" dur="0.15s" from="1" to="0.5"/>
+        </path>
+    </g>
+</svg>
