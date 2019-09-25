@@ -88,6 +88,9 @@ const FlyoutStyles = styled(animated.div)`
     display: flex;
     flex-direction: column;
   }
+  .flyout__section__link {
+    cursor: ${props => (props.location === "/profile" ? "pointer" : "default")};
+  }
   .flyout__section__item {
     display: grid;
     grid-auto-flow: column;

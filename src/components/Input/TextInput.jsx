@@ -12,7 +12,8 @@ export default function TextInput({
   value,
   onChange,
   section,
-  item
+  item,
+  name
 }) {
   return (
     <TextInputStyles

@@ -38,11 +38,18 @@ function Profile({ location }) {
       <FullLoader />
       <Row style={{ height: "100%" }}>
         <Col sm={1} style={{ padding: 0 }}></Col>
-        <Col sm={3} style={{ padding: 0 }}>
+        <Col sm={3} style={{ padding: 0, borderLeft: "1px solid #DFDFDF" }}>
           <Flyout></Flyout>
           <UserProfileControls />
         </Col>
-        <Col sm={6}>
+        <Col
+          sm={6}
+          style={{
+            borderLeft: "1px solid #DFDFDF",
+            borderRight: "1px solid #DFDFDF",
+            paddingRight: 0
+          }}
+        >
           <UserProfile></UserProfile>
         </Col>
         <Col sm={2}>

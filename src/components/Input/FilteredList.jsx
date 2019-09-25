@@ -4,7 +4,7 @@ import { Scrollbars } from "react-custom-scrollbars";
 
 import { TextInput, Checkbox } from ".";
 
-export default function FilteredList({ items, placeholder }) {
+export default function FilteredList({ items, placeholder, values, onChange }) {
   const [searchTerm, updateSearchTerm] = useState("");
   return (
     <FilteredListStyles>
@@ -24,29 +24,32 @@ export default function FilteredList({ items, placeholder }) {
       <div className="item__list">
         {searchTerm.length === 0
           ? items.map((e, i) => {
-            return (
-              <Checkbox
-                highlight
-                highlightTerm={searchTerm}
-                label={e}
-                key={`checkbox${e}`}
-              />
-            );
-          })
-          : items
-            .filter(e => {
-              return e.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-            })
-            .map((e, i) => {
               return (
                 <Checkbox
+                  checked={values && values.indexOf(e) > -1}
                   highlight
                   highlightTerm={searchTerm}
                   label={e}
                   key={`checkbox${e}`}
+                  onChange={onChange}
                 />
               );
-            })}
+            })
+          : items
+              .filter(e => {
+                return e.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+              })
+              .map((e, i) => {
+                return (
+                  <Checkbox
+                    highlight
+                    highlightTerm={searchTerm}
+                    label={e}
+                    key={`checkbox${e}`}
+                    onChange={onChange}
+                  />
+                );
+              })}
       </div>
       {/* </Scrollbars> */}
     </FilteredListStyles>

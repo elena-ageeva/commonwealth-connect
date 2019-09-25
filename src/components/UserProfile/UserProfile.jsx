@@ -106,6 +106,15 @@ export default function Profile() {
       scrollSection.current.scrollTop(sectionTop + scrollTop - 175);
     }
   }, [activeSection]);
+
+  useEffect(() => {
+    const saveTimer = setInterval(() => {
+      console.log("Changes Saved");
+    }, 30000);
+    return () => {
+      window.clearInterval(saveTimer);
+    };
+  }, []);
   return (
     <UserProfileStyles firstLogon={user.firstLogon}>
       <div className="profile__header">

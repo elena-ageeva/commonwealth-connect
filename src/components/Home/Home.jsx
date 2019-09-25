@@ -57,7 +57,8 @@ function Home() {
           sm={7}
           style={{
             height: "100%",
-            padding: `${view === "search" ? "0" : "0px 0px 0px 00px"}`
+            padding: `${view === "search" ? "0" : "0px 0px 0px 00px"}`,
+            borderRight: "1px solid #DFDFDF"
           }}
         >
           <ResultList></ResultList>

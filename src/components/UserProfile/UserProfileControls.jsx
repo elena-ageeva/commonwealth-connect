@@ -9,7 +9,7 @@ const UserProfileControlsStyles = styled.div`
   position: absolute;
   bottom: 0;
   background: white;
-  padding: 10px 0;
+  padding: 10px 20px;
   width: 100%;
   box-sizing: border-box;
   display: flex;

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import pin from "../../assets/pin.png";
 // import cfnpin from "../../assets/CFNlogopin.png";
-import { useTransition } from 'react-spring';
+import { useTransition } from "react-spring";
 
 // STATE
 import { useStateValue } from "../../state";
@@ -73,9 +73,18 @@ function renderInfoBox(practiceObject) {
         <span>{`${practiceObject.address.value.street}, `}</span>
         <span>{`${practiceObject.address.value.city}, ${practiceObject.address.value.state}, ${practiceObject.address.value.zip}`}</span>
       </div>
-      <ul className="office__user__list">{practiceObject.users.map(userObject => {
-        return <li className="user__list__item">{getDisplayName(userObject)}</li>
-      })}</ul>
+      <ul className="office__user__list">
+        {practiceObject.users.map(userObject => {
+          return (
+            <li
+              key={`office user ${userObject.id}`}
+              className="user__list__item"
+            >
+              {getDisplayName(userObject)}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
@@ -101,7 +110,7 @@ export default function Map() {
   }
 
   useEffect(
-    function () {
+    function() {
       let fakeSave;
       if (mapResults !== undefined) {
         const practices = {};
@@ -117,7 +126,7 @@ export default function Map() {
           };
         });
 
-        const results = Object.keys(practices).map(function (practiceName) {
+        const results = Object.keys(practices).map(function(practiceName) {
           const geocode = practices[practiceName].address.value.geocode;
           const resultItem = {
             location: geocode,
@@ -142,8 +151,8 @@ export default function Map() {
         }, 750);
       }
       return () => {
-        window.clearTimeout(fakeSave)
-      }
+        window.clearTimeout(fakeSave);
+      };
     },
     [mapResults]
   );
@@ -151,13 +160,14 @@ export default function Map() {
   const transitions = useTransition(infoBoxesWithPushPins === undefined, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  })
+    leave: { opacity: 0 }
+  });
 
   return (
     <MapStyles>
-      {transitions.map(({ item, key, props }) =>
-        item && <Loader message="Loading Map" />
+      {transitions.map(
+        ({ item, key, props }) =>
+          item && <Loader key={key} message="Loading Map" />
       )}
       {infoBoxesWithPushPins !== undefined && (
         <ReactBingmaps

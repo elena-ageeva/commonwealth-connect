@@ -14,6 +14,7 @@ const FilterStyles = styled.div`
     grid-auto-flow: row;
     grid-auto-rows: min-content;
     grid-gap: 20px;
+    padding-bottom: 50px;
   }
 `;
 

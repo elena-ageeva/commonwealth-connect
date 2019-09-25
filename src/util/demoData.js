@@ -2,7 +2,7 @@
 import zips from "./data/zipDataSmall";
 // import zips from "./data/zipDataMA";
 
-const fakeUserCount = 107;
+const fakeUserCount = 200;
 const randomZips = true;
 
 const productionLevels = [

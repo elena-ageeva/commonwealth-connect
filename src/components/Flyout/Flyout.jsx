@@ -16,7 +16,6 @@ import { UserProfilePicture } from "../";
 function Flyout({ location }) {
   const [{ selectedUser }, dispatch] = useStateValue();
 
-
   function renderAddress(address) {
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -52,14 +51,14 @@ function Flyout({ location }) {
                   });
                 }
               }}
-              className="flyout__content"
+              className="flyout__content flyout__section__link"
             >
               <strong className="flyout__content">{`${itemKey}: `}</strong>
-              {
-                userObject[sectionKey][itemKey].value
-                  ? (itemKey.indexOf("Primary Address") > -1 ? renderAddress(userObject[sectionKey][itemKey].value) : userObject[sectionKey][itemKey].value.toString())
-                  : "None"
-              }
+              {userObject[sectionKey][itemKey].value
+                ? itemKey.indexOf("Primary Address") > -1
+                  ? renderAddress(userObject[sectionKey][itemKey].value)
+                  : userObject[sectionKey][itemKey].value.toString()
+                : "None"}
             </button>
           </div>
         );

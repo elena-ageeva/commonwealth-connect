@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const FilterSectionStyles = styled.div`
-  /* padding-bottom: 20px; */
   position: relative;
   .section__title__wrapper {
     align-items: center;

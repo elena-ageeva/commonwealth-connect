@@ -20,13 +20,39 @@ import generateDemoData from "../../util/demoData";
 
 const demoData = generateDemoData();
 
+const emptyFilters = {
+  Audience: [],
+  Distance: [],
+  "Practice Size": [],
+  "OSJ Designation": [],
+  Tenure: [],
+  "Job Responsibilities": [],
+  Production: [],
+  "Affiliation Model": [],
+  "Business Interests": [],
+  "Business Niche": [],
+  "Personal Interests": []
+};
+
 const App = () => {
   document.title = "Commonwealth Connect";
 
   const initialState = {
     activeSection: undefined,
     directory: demoData.directory,
-    filters: [],
+    filters: {
+      Audience: ["Advisors"],
+      Distance: [25, "02453"],
+      "Practice Size": [],
+      "OSJ Designation": [],
+      Tenure: [],
+      "Job Responsibilities": [],
+      Production: [],
+      "Affiliation Model": [],
+      "Business Interests": [],
+      "Business Niche": [],
+      "Personal Interests": []
+    },
     loading: false,
     mapResults: undefined,
     modal: {
@@ -51,11 +77,25 @@ const App = () => {
             show: false
           }
         };
+      case "clearFilters":
+        return {
+          ...state,
+          filters: JSON.parse(JSON.stringify(emptyFilters))
+        };
       case "changeActiveSection":
         return {
           ...state,
           activeSection: action.activeSection
         };
+      case "updateFilters": {
+        return {
+          ...state,
+          filters: {
+            ...state.filters,
+            [action.section]: action.newFilters
+          }
+        };
+      }
       case "confirmLogon":
         return {
           ...state,
@@ -68,7 +108,7 @@ const App = () => {
         return {
           ...state,
           searchResults: action.searchResults
-        }
+        };
       case "updateUser":
         return {
           ...state,
@@ -84,7 +124,7 @@ const App = () => {
         return {
           ...state,
           mapResults: action.mapResults
-        }
+        };
       case "setLoading":
         return {
           ...state,
