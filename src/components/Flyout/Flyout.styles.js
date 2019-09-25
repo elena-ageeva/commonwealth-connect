@@ -36,8 +36,8 @@ const FlyoutStyles = styled(animated.div)`
     pointer-events: all;
     background: none;
     border: none;
-    right: 20px;
-    top: 20px;
+    right: 10px;
+    top: 10px;
     color: ${props => props.theme.default.gray};
     font-size: ${props => props.theme.default.enormousFontSize};
     position: absolute;

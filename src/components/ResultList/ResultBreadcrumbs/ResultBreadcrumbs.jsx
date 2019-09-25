@@ -22,35 +22,36 @@ export default function ResultBreadcrumbs({ count }) {
 
   return (
     <ResultBreadcrumbStyles view={view} selectedUser={selectedUser}>
-      {view === "search" && (
-        <div className="breadcrumbs">
-          <span className="result__count">{`Showing ${count} results:`}</span>
-          <div className="breadcrumb__list">
-            <div className="breadcrumb__item">
-              <span className="breadcrumb__label">Advisors</span>
-              <button className="breadcrumb__close">
-                <FontAwesomeIcon
-                  className="breadcrumb__close__icon"
-                  icon={faTimes}
-                />
-              </button>
-            </div>
-            <div className="breadcrumb__item">
-              <span className="breadcrumb__label">
-                Within 25 miles of 02453
-              </span>
-              <button className="breadcrumb__close">
-                <FontAwesomeIcon
-                  className="breadcrumb__close__icon"
-                  icon={faTimes}
-                />
-              </button>
-            </div>
-
-            <button className="clear__filter__button">Clear All</button>
+      {/* {view === "search" && ( */}
+      <div className="breadcrumbs">
+        <span className="result__count">{`Showing ${count} results:`}</span>
+        <div className="breadcrumb__list">
+          <div className="breadcrumb__item">
+            <span className="breadcrumb__label">Advisors</span>
+            <button className="breadcrumb__close">
+              <FontAwesomeIcon
+                className="breadcrumb__close__icon"
+                icon={faTimes}
+              />
+            </button>
           </div>
+          <div className="breadcrumb__item">
+            <span className="breadcrumb__label">
+              Within 25 miles of 02453
+              </span>
+            <button className="breadcrumb__close">
+              <FontAwesomeIcon
+                className="breadcrumb__close__icon"
+                icon={faTimes}
+              />
+            </button>
+          </div>
+          {view === "search" &&
+            <button className="clear__filter__button">Clear All</button>
+          }
         </div>
-      )}
+      </div>
+      {/* )} */}
       <button onClick={toggleView} className="map__toggle">
         <span className="map__toggle__label">
           {view === "search" ? "Enlarge Map" : "Back to filters"}

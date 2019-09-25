@@ -16,6 +16,16 @@ import { UserProfilePicture } from "../";
 function Flyout({ location }) {
   const [{ selectedUser }, dispatch] = useStateValue();
 
+
+  function renderAddress(address) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <span>{address.street}</span>
+        <span>{`${address.city}, ${address.state}, ${address.zip}`}</span>
+      </div>
+    );
+  }
+
   function renderSection(userObject, sectionKey) {
     const shownItemKeys = Object.keys(userObject[sectionKey]).filter(
       itemKeyRaw => {
@@ -35,19 +45,21 @@ function Flyout({ location }) {
           >
             <button
               onClick={() => {
-                dispatch({
-                  type: "changeActiveSection",
-                  activeSection: sectionKey
-                });
+                if (location.pathname === "/profile") {
+                  dispatch({
+                    type: "changeActiveSection",
+                    activeSection: sectionKey
+                  });
+                }
               }}
               className="flyout__content"
             >
               <strong className="flyout__content">{`${itemKey}: `}</strong>
-              {`${
+              {
                 userObject[sectionKey][itemKey].value
-                  ? userObject[sectionKey][itemKey].value.toString()
+                  ? (itemKey.indexOf("Primary Address") > -1 ? renderAddress(userObject[sectionKey][itemKey].value) : userObject[sectionKey][itemKey].value.toString())
                   : "None"
-              }`}
+              }
             </button>
           </div>
         );
@@ -78,12 +90,14 @@ function Flyout({ location }) {
           >
             <button
               onClick={() => {
-                dispatch({
-                  type: "changeActiveSection",
-                  activeSection: sectionKey
-                });
+                if (location.pathname === "/profile") {
+                  dispatch({
+                    type: "changeActiveSection",
+                    activeSection: sectionKey
+                  });
+                }
               }}
-              className="flyout__section__title flyout__content"
+              className="flyout__section__link flyout__section__title flyout__content"
             >
               {sectionKey}
             </button>

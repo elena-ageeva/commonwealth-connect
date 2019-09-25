@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { useTransition, animated } from "react-spring";
 
-const LoaderStyles = styled.div`
+const LoaderStyles = styled(animated.div)`
   display: grid;
   grid-template-columns: 200px;
   grid-template-rows: 80px min-content;

@@ -8,47 +8,47 @@ export default function FilteredList({ items, placeholder }) {
   const [searchTerm, updateSearchTerm] = useState("");
   return (
     <FilteredListStyles>
-      <TextInput
+      {/* <TextInput
         value={searchTerm}
         onChange={updateSearchTerm}
         placeholder={placeholder}
-      />
-      <Scrollbars
+      /> */}
+      {/* <Scrollbars
         style={{ width: "100%", height: "200px", marginTop: "10px" }}
         autoHide
         // Hide delay in ms
         autoHideTimeout={1000}
         // Duration for hide animation in ms.
         autoHideDuration={200}
-      >
-        <div className="item__list">
-          {searchTerm.length === 0
-            ? items.map((e, i) => {
-                return (
-                  <Checkbox
-                    highlight
-                    highlightTerm={searchTerm}
-                    label={e}
-                    key={`checkbox${e}`}
-                  />
-                );
-              })
-            : items
-                .filter(e => {
-                  return e.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-                })
-                .map((e, i) => {
-                  return (
-                    <Checkbox
-                      highlight
-                      highlightTerm={searchTerm}
-                      label={e}
-                      key={`checkbox${e}`}
-                    />
-                  );
-                })}
-        </div>
-      </Scrollbars>
+      > */}
+      <div className="item__list">
+        {searchTerm.length === 0
+          ? items.map((e, i) => {
+            return (
+              <Checkbox
+                highlight
+                highlightTerm={searchTerm}
+                label={e}
+                key={`checkbox${e}`}
+              />
+            );
+          })
+          : items
+            .filter(e => {
+              return e.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+            })
+            .map((e, i) => {
+              return (
+                <Checkbox
+                  highlight
+                  highlightTerm={searchTerm}
+                  label={e}
+                  key={`checkbox${e}`}
+                />
+              );
+            })}
+      </div>
+      {/* </Scrollbars> */}
     </FilteredListStyles>
   );
 }

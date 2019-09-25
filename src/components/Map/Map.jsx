@@ -1,16 +1,8 @@
 ﻿// DEPENDENCIES
 import React, { useState, useEffect } from "react";
 import pin from "../../assets/pin.png";
-import cfnpin from "../../assets/CFNlogopin.png";
-// import highlightPin =
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGlobeAmericas,
-  faPhoneAlt,
-  faEnvelope,
-  faDirections
-} from "@fortawesome/free-solid-svg-icons";
+// import cfnpin from "../../assets/CFNlogopin.png";
+import { useTransition } from 'react-spring';
 
 // STATE
 import { useStateValue } from "../../state";
@@ -24,38 +16,38 @@ import { Loader } from "../";
 
 import { getDisplayName } from "../../util/util";
 
-const offices = [
-  {
-    name: "Commonwealth Financial Network",
-    "Practice Name": "Home Office",
-    "Contact Information": {
-      "Primary Address": {
-        value: {
-          street: "29 Sawyer Rd",
-          city: "Waltham",
-          state: "MA",
-          zip: "02453-3483",
-          geocode: [42.36127, -71.25996]
-        }
-      }
-    }
-  },
-  {
-    name: "Commonwealth Financial Network",
-    "Practice Name": "San Diego Office",
-    "Contact Information": {
-      "Primary Address": {
-        value: {
-          street: "110 West A Street, Suite 1800",
-          city: "San Diego",
-          state: "CA",
-          zip: "92101-3706",
-          geocode: [32.71941, -117.16429]
-        }
-      }
-    }
-  }
-];
+// const offices = [
+//   {
+//     name: "Commonwealth Financial Network",
+//     "Practice Name": "Home Office",
+//     "Contact Information": {
+//       "Primary Address": {
+//         value: {
+//           street: "29 Sawyer Rd",
+//           city: "Waltham",
+//           state: "MA",
+//           zip: "02453-3483",
+//           geocode: [42.36127, -71.25996]
+//         }
+//       }
+//     }
+//   },
+//   {
+//     name: "Commonwealth Financial Network",
+//     "Practice Name": "San Diego Office",
+//     "Contact Information": {
+//       "Primary Address": {
+//         value: {
+//           street: "110 West A Street, Suite 1800",
+//           city: "San Diego",
+//           state: "CA",
+//           zip: "92101-3706",
+//           geocode: [32.71941, -117.16429]
+//         }
+//       }
+//     }
+//   }
+// ];
 
 const myStyle = {
   elements: {
@@ -81,36 +73,9 @@ function renderInfoBox(practiceObject) {
         <span>{`${practiceObject.address.value.street}, `}</span>
         <span>{`${practiceObject.address.value.city}, ${practiceObject.address.value.state}, ${practiceObject.address.value.zip}`}</span>
       </div>
-      <div className="custom__infobox__controls">
-        <div className="infobox__control">
-          <FontAwesomeIcon
-            className="infobox__control__icon"
-            icon={faPhoneAlt}
-          />
-          <span className="infobox__control__label">Call</span>
-        </div>
-        <div className="infobox__control">
-          <FontAwesomeIcon
-            className="infobox__control__icon"
-            icon={faEnvelope}
-          />
-          <span className="infobox__control__label">Email</span>
-        </div>
-        <div className="infobox__control">
-          <FontAwesomeIcon
-            className="infobox__control__icon"
-            icon={faGlobeAmericas}
-          />
-          <span className="infobox__control__label">Website</span>
-        </div>
-        <div className="infobox__control">
-          <FontAwesomeIcon
-            className="infobox__control__icon"
-            icon={faDirections}
-          />
-          <span className="infobox__control__label">Directions</span>
-        </div>
-      </div>
+      <ul className="office__user__list">{practiceObject.users.map(userObject => {
+        return <li className="user__list__item">{getDisplayName(userObject)}</li>
+      })}</ul>
     </div>
   );
 }
@@ -120,11 +85,10 @@ const maploadState = {
 };
 
 export default function Map() {
-  const [{ directory, selectedUser }] = useStateValue();
+  const [{ mapResults }] = useStateValue();
   const [infoBoxesWithPushPins, updateInfoBoxesWithPushPins] = useState(
     undefined
   );
-  const [pins, updatePins] = useState([]);
 
   function spreadUsers(practicesObject, userObject) {
     const practiceName =
@@ -137,13 +101,11 @@ export default function Map() {
   }
 
   useEffect(
-    function() {
-      if (directory !== undefined) {
-        // assign an empty object to store unique practices
+    function () {
+      let fakeSave;
+      if (mapResults !== undefined) {
         const practices = {};
-
-        // loop over every user
-        directory.forEach(userElement => {
+        mapResults.forEach(userElement => {
           const practiceName =
             userElement["Contact Information"]["Practice Name"].value;
           const practiceAddress =
@@ -155,7 +117,7 @@ export default function Map() {
           };
         });
 
-        const results = Object.keys(practices).map(function(practiceName) {
+        const results = Object.keys(practices).map(function (practiceName) {
           const geocode = practices[practiceName].address.value.geocode;
           const resultItem = {
             location: geocode,
@@ -175,19 +137,29 @@ export default function Map() {
           };
           return resultItem;
         });
-        setTimeout(() => {
+        fakeSave = setTimeout(() => {
           updateInfoBoxesWithPushPins(results);
-        }, 1500);
+        }, 750);
+      }
+      return () => {
+        window.clearTimeout(fakeSave)
       }
     },
-    [directory]
+    [mapResults]
   );
+
+  const transitions = useTransition(infoBoxesWithPushPins === undefined, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  })
 
   return (
     <MapStyles>
-      {infoBoxesWithPushPins === undefined ? (
-        <Loader message="Loading Map" />
-      ) : (
+      {transitions.map(({ item, key, props }) =>
+        item && <Loader message="Loading Map" />
+      )}
+      {infoBoxesWithPushPins !== undefined && (
         <ReactBingmaps
           bingmapKey={maploadState.bingmapKey}
           center={[42.36127, -71.25996]}

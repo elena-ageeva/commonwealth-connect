@@ -2,16 +2,19 @@
 import zips from "./data/zipDataSmall";
 // import zips from "./data/zipDataMA";
 
-const fakeUserCount = 25;
+const fakeUserCount = 107;
 const randomZips = true;
 
 const productionLevels = [
-  "Up to $200,000",
+  "Up to $199,000",
   "$200,000 – $499,999",
   "$500,000 – $749,999",
   "$750,000 – $999,999",
-  "$1,000,000 – 1,499,999",
-  "$1,500,000+"
+  "$1,000,000 – $1,499,999",
+  "$1,500,000 - $1,999,999",
+  "$2,000,000 - $2,499,999",
+  "$2,500,000 - $2,999,999",
+  "$3,000,000+"
 ];
 
 const businessMixes = [

@@ -24,19 +24,21 @@ const App = () => {
   document.title = "Commonwealth Connect";
 
   const initialState = {
+    activeSection: undefined,
     directory: demoData.directory,
     filters: [],
+    loading: false,
+    mapResults: undefined,
     modal: {
       show: demoData.user.firstLogon,
       title: "Welcome to Commonwealth Connect!",
       message: "Please take a moment to fill out your profile."
     },
+    resultPage: 0,
     searchResults: [],
     selectedUser: undefined,
     user: demoData.user,
-    view: "search",
-    loading: false,
-    activeSection: undefined
+    view: "search"
   };
 
   const reducer = (state, action) => {
@@ -62,6 +64,11 @@ const App = () => {
             firstLogon: false
           }
         };
+      case "setSearchResults":
+        return {
+          ...state,
+          searchResults: action.searchResults
+        }
       case "updateUser":
         return {
           ...state,
@@ -73,6 +80,11 @@ const App = () => {
           ...state,
           view: action.view
         };
+      case "updateMapResults":
+        return {
+          ...state,
+          mapResults: action.mapResults
+        }
       case "setLoading":
         return {
           ...state,
