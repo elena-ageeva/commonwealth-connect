@@ -120,7 +120,8 @@ const App = () => {
           ...state,
           filters: {
             ...state.filters,
-            Distance: action.newDistance
+            Distance: action.newDistance,
+            mapUser: undefined
           }
         };
       case "changeActiveSection":

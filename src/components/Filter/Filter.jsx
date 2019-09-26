@@ -32,6 +32,9 @@ export default function Filter() {
           if (userElement.hidden) {
             return false;
           }
+          if (userElement["Contact Information"]["Practice Name"].value === user["Contact Information"]["Practice Name"].value) {
+            return false;
+          }
           let include = true;
           for (let i = 0; i < activeFilters.length; i++) {
             include = filterUser(userElement, activeFilters[i], filters[activeFilters[i]], user);

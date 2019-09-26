@@ -33,6 +33,7 @@ export default function ResultItem({ index, resultItemUser }) {
       className="result__item__content"
       selected={selectedUser !== undefined && selectedUser.id === resultItemUser.id}
       onClick={handleUserSelect}
+    // onMouseEnter={handleUserSelect}
     >
       <td className="result__item__content">
         <UserProfilePicture className="result__item__content" index={index} scale={0.8} />

@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import pin from "../../assets/pin.png";
 import homePin from "../../assets/homePin.png";
+import hoverPin from "../../assets/hoverPin.png";
+
 // import cfnpin from "../../assets/CFNlogopin.png";
 import { useTransition } from "react-spring";
 
@@ -95,7 +97,7 @@ const maploadState = {
 };
 
 export default function Map() {
-  const [{ mapResults, user, mapUser }] = useStateValue();
+  const [{ mapResults, user, mapUser, selectedUser, filters }] = useStateValue();
   const [infoBoxesWithPushPins, updateInfoBoxesWithPushPins] = useState(
     undefined
   );
@@ -109,6 +111,7 @@ export default function Map() {
       return [userObject];
     }
   }
+
 
   useEffect(
     function () {
@@ -141,7 +144,7 @@ export default function Map() {
               title: practiceName,
               description: practiceName,
               color: "#006699",
-              icon: pin,
+              icon: selectedUser && geocode === selectedUser["Contact Information"]["Primary Address"].value.geocode ? hoverPin : pin,
               height: "50px"
             }
           };
@@ -163,6 +166,19 @@ export default function Map() {
             height: "50px"
           }
         })
+        if (selectedUser) {
+          results.push({
+            location: selectedUser["Contact Information"]["Primary Address"].value.geocode,
+            addHandler: "mouseover",
+            infoboxOption: {
+              title: "My Practice",
+              description: "My Practice"
+            },
+            pushPinOption: {
+              icon: hoverPin,
+            }
+          })
+        }
         fakeSave = setTimeout(() => {
           updateInfoBoxesWithPushPins(results);
         }, 750);
@@ -171,7 +187,7 @@ export default function Map() {
         window.clearTimeout(fakeSave);
       };
     },
-    [mapResults, user]
+    [mapResults, user, selectedUser]
   );
 
   const transitions = useTransition(infoBoxesWithPushPins === undefined, null, {
@@ -179,6 +195,35 @@ export default function Map() {
     enter: { opacity: 1 },
     leave: { opacity: 0 }
   });
+  const [zoomLevel, setZoomLevel] = useState(9);
+
+  function getZoomLevel(miles) {
+    let zoom = 9;
+    if (miles <= 10) {
+      zoom = 12;
+    }
+    if (miles > 10 && miles <= 25) {
+      zoom = 9;
+    }
+    if (miles > 25 && miles <= 50) {
+      zoom = 8;
+    }
+    if (miles > 50 && miles <= 150) {
+      zoom = 6;
+    }
+    if (miles > 150 && miles <= 250) {
+      zoom = 6
+    }
+
+    return zoom;
+  }
+
+  useEffect(() => {
+    if (filters.Distance) {
+      const newZoomLevel = getZoomLevel(filters.Distance.miles)
+      setZoomLevel(newZoomLevel);
+    }
+  }, [filters])
 
   return (
     <MapStyles>
@@ -191,7 +236,7 @@ export default function Map() {
           bingmapKey={maploadState.bingmapKey}
           center={mapUser ? mapUser["Contact Information"]["Primary Address"].value.geocode : user["Contact Information"]["Primary Address"].value.geocode}
           infoboxesWithPushPins={infoBoxesWithPushPins}
-          zoom={9}
+          zoom={zoomLevel}
           mapTypeId={"grayscale"}
           customMapStyle={myStyle}
           navigationBarMode={"minified"}

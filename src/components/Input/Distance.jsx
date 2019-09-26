@@ -9,7 +9,11 @@ import { TextInput } from ".";
 export default function Distance({ values, onChange }) {
 
   function updateMiles(value) {
-    onChange({ miles: value, location: values.location });
+    let newValue = value;
+    if (newValue > 250) {
+      newValue = 250
+    }
+    onChange({ miles: newValue, location: values.location });
   }
   function updateZip(value) {
     onChange({ miles: values.miles, location: value });
