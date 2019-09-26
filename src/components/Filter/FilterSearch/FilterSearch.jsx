@@ -17,7 +17,8 @@ export default function FilterSearch() {
   function handleSearchTerm(value) {
     setSearchTerm(value);
   }
-  function search() {
+  function search(ev) {
+    ev.preventDefault()
     dispatch({
       type: "setSearchTerm",
       searchTerm
@@ -25,18 +26,18 @@ export default function FilterSearch() {
   }
   return (
     <FilterSearchStyles>
-      <div className="input__wrapper">
+      <form className="input__wrapper" onSubmit={search}>
         <FontAwesomeIcon className="search__icon" icon={faSearch} />
         <TextInput
-          placeholder="Search by first, last, or practice name"
+          placeholder="first, last, or practice name"
           borderless
           value={searchTerm}
           onChange={handleSearchTerm}
         ></TextInput>
-        <button onClick={search} className="search__button">
-          Search
+      </form>
+      <button onClick={search} className="search__button">
+        Search
         </button>
-      </div>
     </FilterSearchStyles>
   );
 }

@@ -26,38 +26,49 @@ function Flyout({ location }) {
   }
 
   function renderSection(userObject, sectionKey) {
-    const shownItemKeys = Object.keys(userObject[sectionKey]).filter(
-      itemKeyRaw => {
-        return (
-          userObject[sectionKey][itemKeyRaw].show &&
-          userObject[sectionKey][itemKeyRaw].inFlyout
-        );
-      }
-    );
+    let shownItemKeys;
+    if (location.pathname === "/") {
+      shownItemKeys = Object.keys(userObject[sectionKey]).filter(
+        itemKeyRaw => {
+          return (
+            userObject[sectionKey][itemKeyRaw].show &&
+            userObject[sectionKey][itemKeyRaw].inFlyout
+          );
+        }
+      );
+    } else {
+      shownItemKeys = Object.keys(userObject[sectionKey]).filter(
+        itemKeyRaw => {
+          return (
+            userObject[sectionKey][itemKeyRaw].inFlyout
+          );
+        }
+      );
+    }
 
     if (shownItemKeys.length > 0) {
       return shownItemKeys.map(itemKey => {
         return (
           <div
-            className="flyout__section__item flyout__content"
+            className={`flyout__section__item flyout__content ${!userObject[sectionKey][itemKey].show && "hidden__flyout__item"}`}
             key={`flyout section item ${itemKey}`}
           >
             <button
               onClick={() => {
                 if (location.pathname === "/profile") {
                   dispatch({
-                    type: "changeActiveSection",
-                    activeSection: sectionKey
+                    type: "changeActiveItem",
+                    activeItem: itemKey
                   });
                 }
               }}
               className="flyout__content flyout__section__link"
             >
               <strong className="flyout__content">{`${itemKey}: `}</strong>
-              {userObject[sectionKey][itemKey].value
+              {userObject[sectionKey][itemKey].value && userObject[sectionKey][itemKey].value.toString().length > 0
                 ? itemKey.indexOf("Primary Address") > -1
                   ? renderAddress(userObject[sectionKey][itemKey].value)
-                  : userObject[sectionKey][itemKey].value.toString()
+                  : userObject[sectionKey][itemKey].value.toString().split(",").join(", ")
                 : "None"}
             </button>
           </div>

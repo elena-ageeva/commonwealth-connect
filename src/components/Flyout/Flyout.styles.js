@@ -42,6 +42,9 @@ const FlyoutStyles = styled(animated.div)`
     font-size: ${props => props.theme.default.enormousFontSize};
     position: absolute;
   }
+  .hidden__flyout__item {
+    opacity: 0.25;
+  }
   .user__info {
   }
   .user__name__wrapper {
@@ -91,9 +94,13 @@ const FlyoutStyles = styled(animated.div)`
   .flyout__section__link {
     cursor: ${props => (props.location === "/profile" ? "pointer" : "default")};
   }
+  .flyout__section__link:hover {
+    text-decoration: underline;
+  }
   .flyout__section__item {
     display: grid;
     grid-auto-flow: column;
+    transition: all 200ms ease;
   }
   .flyout__section__item--row {
     grid-auto-flow: row;

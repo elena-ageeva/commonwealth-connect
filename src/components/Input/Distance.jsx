@@ -1,26 +1,24 @@
 ﻿import React, { useState, useEffect } from "react";
 import { DistanceStyles } from "./styles";
 
+import { useStateValue } from "../../state";
+
+
 import { TextInput } from ".";
 
 export default function Distance({ values, onChange }) {
-  const [miles, setMiles] = useState(values[0] || "");
-  const [zip, setZip] = useState(values[1] || "");
-  useEffect(() => {
-    onChange(miles, zip);
-  }, [zip, miles]);
 
   function updateMiles(value) {
-    setMiles(value);
+    onChange({ miles: value, location: values.location });
   }
   function updateZip(value) {
-    setZip(value);
+    onChange({ miles: values.miles, location: value });
   }
   return (
     <DistanceStyles>
       <TextInput
         name="miles"
-        value={miles}
+        value={values.miles}
         onChange={updateMiles}
         placeholder="25"
         label="Within"
@@ -28,7 +26,7 @@ export default function Distance({ values, onChange }) {
       />
       <TextInput
         name="location"
-        value={zip}
+        value={values.location}
         onChange={updateZip}
         placeholder="02453"
         label="miles of:"

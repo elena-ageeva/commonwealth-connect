@@ -27,7 +27,7 @@ const UserProfilePictureStyles = styled.div`
   }
 `;
 
-export default function UserProfilePicture({ scale }) {
+export default function UserProfilePicture({ scale, index }) {
   return (
     <UserProfilePictureStyles
       scale={scale}
@@ -36,7 +36,7 @@ export default function UserProfilePicture({ scale }) {
       <FontAwesomeIcon className="profile__picture__icon" icon={faUser} />
       {/* <img
         className="profile__picture__img"
-        src="https://home.commonwealth.com/backoffice/RepPictures/269109301.jpg"
+        src={`https://source.unsplash.com/${200 + index}x${200 + index}/?portrait`}
         alt=""
       /> */}
     </UserProfilePictureStyles>

@@ -1,8 +1,11 @@
 ﻿import faker from "faker";
 import zips from "./data/zipDataSmall";
+// import zips from "./data/zipData";
 // import zips from "./data/zipDataMA";
 
-const fakeUserCount = 200;
+import { lists } from "./data/lists";
+
+const fakeUserCount = 6000;
 const randomZips = true;
 
 const productionLevels = [
@@ -51,46 +54,62 @@ function generateAddress(index) {
   return addressObject;
 }
 
-export function generateFakeUser(hidden, practiceName, index) {
+function getRandomInterests(list) {
+  const interestCount = getRandomInt(1, 10);
+  const interests = [];
+  while (interests.length < interestCount) {
+    const newInterest = faker.random.arrayElement(lists[list]);
+    if (!interests.includes(newInterest)) {
+      interests.push(newInterest);
+    }
+  }
+  return interests;
+}
+
+export function generateFakeUser(hidden, practiceName, index, address) {
   const name = faker.name.firstName();
   const website = `${faker.internet.domainWord()}.com`;
   const fakeUser = {
     id: faker.random.uuid(),
-    hidden: hidden !== undefined ? hidden : faker.random.boolean(),
+    hidden: false,
     firstLogon: false,
+    type: faker.random.arrayElement(["Advisors", "Staff"]),
     "Contact Information": {
       "Last Name": {
         canEdit: false,
         show: true,
         inFlyout: false,
-        value: faker.name.lastName()
+        value: hidden !== undefined ? "Smith" : faker.name.lastName()
       },
       "First Name": {
         canEdit: false,
         show: true,
         inFlyout: false,
         canHide: false,
-        value: name
+        value: hidden !== undefined ? "Andy" : name
       },
       "Preferred Name": {
         canEdit: false,
         show: true,
         inFlyout: false,
-        value: faker.random.arrayElement([faker.name.firstName(), undefined])
+        value:
+          hidden !== undefined
+            ? undefined
+            : faker.random.arrayElement([faker.name.firstName(), undefined])
       },
       "Practice Name": {
         canEdit: false,
         show: true,
         inFlyout: true,
         canHide: false,
-        value: practiceName
+        value: hidden !== undefined ? "Andy Smith's Practice" : practiceName
       },
       "Primary Address": {
         canEdit: false,
         show: true,
         inFlyout: true,
         canHide: false,
-        value: generateAddress(index)
+        value: address || generateAddress(index)
       },
       Email: {
         canEdit: false,
@@ -103,6 +122,13 @@ export function generateFakeUser(hidden, practiceName, index) {
         show: true,
         inFlyout: true,
         canHide: false,
+        value: faker.phone.phoneNumberFormat(1)
+      },
+      "Mobile Phone Number": {
+        canEdit: false,
+        show: faker.random.boolean(),
+        inFlyout: true,
+        canHide: true,
         value: faker.phone.phoneNumberFormat(1)
       },
       "Website Address": {
@@ -119,21 +145,21 @@ export function generateFakeUser(hidden, practiceName, index) {
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: getRandomInt(1, 3)
+        value: getRandomInt(1, 10)
       },
       "Licensed Staff Members": {
         canEdit: false,
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: getRandomInt(1, 5)
+        value: getRandomInt(1, 15)
       },
       "Unlicensed Staff Members": {
         canEdit: false,
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: getRandomInt(1, 5)
+        value: getRandomInt(1, 15)
       },
       "OSJ Designation": {
         canEdit: false,
@@ -163,14 +189,14 @@ export function generateFakeUser(hidden, practiceName, index) {
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: []
+        value: getRandomInterests("Job Responsibilities")
       },
       Designations: {
         canEdit: false,
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: []
+        value: faker.random.arrayElement(["CFP", []])
       },
       Production: {
         canEdit: false,
@@ -191,14 +217,14 @@ export function generateFakeUser(hidden, practiceName, index) {
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: []
+        value: getRandomInterests("Business Interests")
       },
       "Business Niche": {
         canEdit: true,
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: []
+        value: getRandomInterests("Business Niche")
       },
       "Business Mix": {
         canEdit: false,
@@ -221,14 +247,14 @@ export function generateFakeUser(hidden, practiceName, index) {
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: []
+        value: getRandomInterests("Personal Interests")
       },
-      "Mobile Phone Number": {
-        canEdit: false,
+      "Other Interests": {
+        canEdit: true,
         show: faker.random.boolean(),
         inFlyout: true,
         canHide: true,
-        value: faker.phone.phoneNumberFormat(1)
+        value: ""
       }
     }
   };
@@ -236,19 +262,22 @@ export function generateFakeUser(hidden, practiceName, index) {
 }
 
 function generateDemoData() {
-  let practiceName = faker.company.companyName();
+  let practiceName = "Andy Smith's Practice";
+  let address = generateAddress(1);
   const demoData = {
-    user: generateFakeUser(false, practiceName, 10),
+    user: generateFakeUser(false, practiceName, 10, address),
     directory: Array(fakeUserCount)
       .fill(undefined)
       .map((e, i) => {
         if (i > 0 && i % 5 === 0) {
           practiceName = faker.company.companyName();
+          address = generateAddress(1);
         }
-        if (!randomZips) {
-          practiceName = faker.company.companyName();
-        }
-        const fakeUser = generateFakeUser(undefined, practiceName, i);
+        // if (!randomZips) {
+        //   practiceName = faker.company.companyName();
+        //   address = generateAddress(1);
+        // }
+        const fakeUser = generateFakeUser(undefined, practiceName, i, address);
         return fakeUser;
       })
   };

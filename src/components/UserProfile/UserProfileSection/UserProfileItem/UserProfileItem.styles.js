@@ -1,11 +1,14 @@
 import styled from "styled-components";
 
 const ProfileItemStyles = styled.div`
+  background: ${props => (props.isActive ? "#006699" : "none")};
+  transition: background ${props => (props.isActive ? "0ms" : "1000ms")} ease;
   padding-right: 15px;
   display: grid;
   justify-content: space-between;
   grid-auto-flow: column;
   grid-gap: 10px;
+  border-radius: 3px;
   grid-template-columns: ${props =>
     props.type === "default" ? "190px 1fr auto" : "1fr"};
   font-size: ${props => props.theme.default.baseFontSize};
@@ -23,6 +26,7 @@ const ProfileItemStyles = styled.div`
     border: none;
     border-radius: 10px;
     height: 20px;
+    margin-top: 2px;
     width: 40px;
     background: ${props =>
       props.show ? props.theme.default.gray : props.theme.default.lightestGray};

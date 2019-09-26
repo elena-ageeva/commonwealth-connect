@@ -5,7 +5,7 @@ const UserProfileStyles = styled.div`
   display: grid;
   grid-template-rows: 75px 1fr;
   justify-items: start;
-  position: "relative";
+  position: relative;
   .profile__title {
     color: ${props => props.theme.default.lightGray};
     font-weight: 600;
@@ -14,6 +14,33 @@ const UserProfileStyles = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
+  }
+  &&::before {
+    content: "";
+    position: absolute;
+    top: 70px;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    z-index: 100;
+  }
+  &&::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    z-index: 100;
   }
   .profile__back {
     color: ${props => props.theme.default.blue};

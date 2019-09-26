@@ -38,6 +38,17 @@ const ResultListStyles = styled.div`
     font-size: ${props => props.theme.default.largerFontSize};
     position: relative;
   }
+  .table__sort__button:hover {
+    text-decoration: underline;
+  }
+
+  .table__sort__button--inactive:hover {
+    text-decoration: none;
+  }
+
+  .table__sort__button--inactive {
+    cursor: default;
+  }
 
   .column__sort__icon {
     color: ${props => props.theme.default.lightGray};

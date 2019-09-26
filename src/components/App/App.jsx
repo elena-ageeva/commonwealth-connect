@@ -13,7 +13,7 @@ import { ThemeProvider } from "styled-components";
 import AppStyles, { theme } from "./App.styles";
 
 // COMPONENTS
-import { Header, Home, Profile, Modal, StyledComponentDemo } from "../";
+import { Header, Home, Profile, Modal } from "../";
 
 // UTIL
 import generateDemoData from "../../util/demoData";
@@ -21,39 +21,40 @@ import generateDemoData from "../../util/demoData";
 const demoData = generateDemoData();
 
 const emptyFilters = {
-  searchTerm: "",
-  Audience: [],
-  Distance: [],
-  "Practice Size": [],
-  "OSJ Designation": [],
-  Tenure: [],
-  "Job Responsibilities": [],
-  Production: [],
-  "Affiliation Model": [],
-  "Business Interests": [],
-  "Business Niche": [],
-  "Personal Interests": []
+  searchTerm: undefined,
+  Audience: undefined,
+  Distance: undefined,
+  "Practice Size": undefined,
+  "OSJ Designation": undefined,
+  Tenure: undefined,
+  "Job Responsibilities": undefined,
+  Production: undefined,
+  "Affiliation Model": undefined,
+  "Business Interests": undefined,
+  "Business Niche": undefined,
+  "Personal Interests": undefined
 };
 
 const App = () => {
   document.title = "Commonwealth Connect";
 
   const initialState = {
+    activeItem: undefined,
     activeSection: undefined,
     directory: demoData.directory,
     filters: {
       searchTerm: undefined,
       Audience: ["Advisors"],
-      Distance: [25, "02453"],
-      "Practice Size": [],
-      "OSJ Designation": [],
-      Tenure: [],
-      "Job Responsibilities": [],
-      Production: [],
-      "Affiliation Model": [],
-      "Business Interests": [],
-      "Business Niche": [],
-      "Personal Interests": []
+      Distance: { miles: 25, location: demoData.user["Contact Information"]["Primary Address"].value.zip },
+      "Practice Size": undefined,
+      "OSJ Designation": undefined,
+      Tenure: undefined,
+      "Job Responsibilities": undefined,
+      Production: undefined,
+      "Affiliation Model": undefined,
+      "Business Interests": undefined,
+      "Business Niche": undefined,
+      "Personal Interests": undefined
     },
     loading: false,
     mapResults: undefined,
@@ -79,7 +80,18 @@ const App = () => {
             show: false
           }
         };
-      case "setSearchterm":
+      case "updateMapUser": {
+        return {
+          ...state,
+          mapUser: action.mapUser
+        }
+      }
+      case "changeActiveItem":
+        return {
+          ...state,
+          activeItem: action.activeItem
+        }
+      case "setSearchTerm":
         return {
           ...state,
           filters: { ...state.filters, searchTerm: action.searchTerm }
@@ -94,7 +106,8 @@ const App = () => {
           ...state,
           filters: {
             ...state.filters,
-            Distance: []
+            Distance: undefined
+            // Distance: [5, state.user["Contact Information"]["Primary Address"].value.zip]
           }
         };
       case "clearFilters":

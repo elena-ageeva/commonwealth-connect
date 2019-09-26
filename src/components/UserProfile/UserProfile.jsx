@@ -16,7 +16,7 @@ import UserProfileSection from "./UserProfileSection/UserProfileSection";
 import { getDisplayName } from "../../util/util";
 
 export default function Profile() {
-  const [{ user, directory, activeSection }, dispatch] = useStateValue();
+  const [{ user, directory, activeSection, activeItem }, dispatch] = useStateValue();
   const [scrollTop, setScrollTop] = useState(0);
   const scrollSection = useRef(null);
   function toggleValueDisplay(section, label) {
@@ -52,7 +52,6 @@ export default function Profile() {
     });
   }
   function updateUserList(section, list, value, checked) {
-    console.log(section, list, value, checked);
     const updatedUserList = [...user[section][list].value];
     if (checked) {
       updatedUserList.push(value);
@@ -103,9 +102,32 @@ export default function Profile() {
     if (activeSection) {
       const section = document.getElementById(activeSection);
       const sectionTop = section.getBoundingClientRect().top;
-      scrollSection.current.scrollTop(sectionTop + scrollTop - 175);
+      // scrollSection.current.scrollTop(sectionTop + scrollTop - 160);
+      scrollSection.current.view.scroll({
+        top: sectionTop + scrollTop - 200,
+        left: 0,
+        behavior: 'smooth'
+      });
+      dispatch({
+        type: "changeActiveSection",
+        activeSection: undefined
+      });
     }
-  }, [activeSection]);
+    if (activeItem) {
+      const item = document.getElementById(activeItem);
+      const itemTop = item.getBoundingClientRect().top;
+      // scrollSection.current.scrollTop(itemTop + scrollTop - 200);
+      scrollSection.current.view.scroll({
+        top: itemTop + scrollTop - 200,
+        left: 0,
+        behavior: 'smooth'
+      });
+      dispatch({
+        type: "changeActiveItem",
+        activeItem: undefined
+      });
+    }
+  }, [activeSection, scrollTop, activeItem, dispatch]);
 
   useEffect(() => {
     const saveTimer = setInterval(() => {

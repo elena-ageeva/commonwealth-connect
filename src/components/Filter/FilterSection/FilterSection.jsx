@@ -18,14 +18,14 @@ export default function FilterSection({ title, active }) {
   const [{ filters }, dispatch] = useStateValue();
   const [expanded, setExpanded] = useState(active || false);
   const [localFilters, updateLocalFilters] = useState([]);
-  const [distance, setDistance] = useState(filters[Distance] || []);
+  const [distance, setDistance] = useState(filters.Distance);
 
   function applyFilter() {
     if (title !== "Distance") {
       dispatch({
         type: "updateFilters",
         section: title,
-        newFilters: localFilters
+        newFilters: localFilters.length > 0 ? localFilters : undefined
       });
     } else {
       dispatch({
@@ -45,18 +45,18 @@ export default function FilterSection({ title, active }) {
     }
   }
 
-  function updateDistance(...args) {
-    setDistance(args);
+  function updateDistance(distanceValue) {
+    setDistance(distanceValue);
   }
 
   useEffect(() => {
-    updateLocalFilters([...filters[title]]);
-  }, [filters]);
+    updateLocalFilters(filters[title] && title !== "Distance" ? [...filters[title]] : []);
+  }, [filters, title]);
 
   function renderCheckbox(option, index) {
     return (
       <Checkbox
-        checked={localFilters.indexOf(option) > -1}
+        checked={localFilters && localFilters.indexOf(option) > -1}
         key={`${title} checkbox ${index}`}
         label={option}
         onChange={changeFilter}

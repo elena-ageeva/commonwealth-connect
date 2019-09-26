@@ -10,7 +10,8 @@ const ResultItemStyles = styled.tr`
     props.selected ? props.theme.default.darkWhite : "none"};
 
   td:last-child::after {
-    display: ${props => (props.selected ? "default" : "none")};
+    display: ${props => (props.selected ? "inline" : "none")};
+    z-index: 10;
     width: 0;
     height: 0;
     border-top: 37.5px solid white;

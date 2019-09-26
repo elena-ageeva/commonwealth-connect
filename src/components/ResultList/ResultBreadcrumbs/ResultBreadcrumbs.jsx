@@ -26,10 +26,11 @@ export default function ResultBreadcrumbs({ count }) {
         type: "clearSearchTerm"
       });
     } else if (section !== "Distance") {
+      const newFilters = filters[section].filter(filterItem => filterItem !== value);
       dispatch({
         type: "updateFilters",
         section,
-        newFilters: filters[section].filter(filterItem => filterItem !== value)
+        newFilters: newFilters.length > 0 ? newFilters : undefined
       });
     } else {
       dispatch({
@@ -52,24 +53,24 @@ export default function ResultBreadcrumbs({ count }) {
           const value = filters.searchTerm;
           if (value && value.length > 0) {
             breadCrumbs.push({
-              displayValue: value,
+              displayValue: `Where first, last, or practice name includes ${value}`,
               section: filterKey,
               value
             });
           }
           break;
         case "Distance":
-          if (filters[filterKey][0]) {
+          if (filters[filterKey]) {
             breadCrumbs.push({
-              displayValue: `Within ${filters[filterKey][0]} miles of ${
-                filters[filterKey][1]
-              }`,
+              displayValue: `Within ${filters[filterKey].miles} miles of ${
+                filters[filterKey].location
+                }`,
               section: filterKey
             });
           }
           break;
         case "Audience":
-          filters[filterKey].forEach(value => {
+          filters[filterKey] && filters[filterKey].forEach(value => {
             breadCrumbs.push({
               displayValue: value,
               section: filterKey,
@@ -78,7 +79,7 @@ export default function ResultBreadcrumbs({ count }) {
           });
           break;
         case "Practice Size":
-          filters[filterKey].forEach(value => {
+          filters[filterKey] && filters[filterKey].forEach(value => {
             breadCrumbs.push({
               displayValue: `With a Practice Size of ${value}`,
               section: filterKey,
@@ -87,20 +88,20 @@ export default function ResultBreadcrumbs({ count }) {
           });
           break;
         case "OSJ Designation":
-          filters[filterKey].forEach(value => {
+          filters[filterKey] && filters[filterKey].forEach(value => {
             breadCrumbs.push(
               value === "Yes"
                 ? { displayValue: "Who are an OSJ", section: filterKey, value }
                 : {
-                    displayValue: "Who are not an OSJ",
-                    section: filterKey,
-                    value
-                  }
+                  displayValue: "Who are not an OSJ",
+                  section: filterKey,
+                  value
+                }
             );
           });
           break;
         case "Tenure":
-          filters[filterKey].forEach(value => {
+          filters[filterKey] && filters[filterKey].forEach(value => {
             breadCrumbs.push({
               displayValue: `With a tenure of ${value}`,
               section: filterKey,
@@ -109,7 +110,7 @@ export default function ResultBreadcrumbs({ count }) {
           });
           break;
         case "Job Responsibilities":
-          filters[filterKey].forEach(value => {
+          filters[filterKey] && filters[filterKey].forEach(value => {
             breadCrumbs.push({
               displayValue: `Responsible for ${value}`,
               section: filterKey,
@@ -118,7 +119,7 @@ export default function ResultBreadcrumbs({ count }) {
           });
           break;
         case "Production":
-          filters[filterKey].forEach(value => {
+          filters[filterKey] && filters[filterKey].forEach(value => {
             breadCrumbs.push({
               displayValue: `With a Production of ${value}`,
               section: filterKey,
@@ -127,7 +128,7 @@ export default function ResultBreadcrumbs({ count }) {
           });
           break;
         case "Affiliation Model":
-          filters[filterKey].forEach(value => {
+          filters[filterKey] && filters[filterKey].forEach(value => {
             breadCrumbs.push({
               displayValue: `With an Affiliation Model of ${value}`,
               section: filterKey,
@@ -136,7 +137,7 @@ export default function ResultBreadcrumbs({ count }) {
           });
           break;
         case "Business Interests":
-          filters[filterKey].forEach(value => {
+          filters[filterKey] && filters[filterKey].forEach(value => {
             breadCrumbs.push({
               displayValue: `Interested in ${value}`,
               section: filterKey,
@@ -145,7 +146,7 @@ export default function ResultBreadcrumbs({ count }) {
           });
           break;
         case "Business Niche":
-          filters[filterKey].forEach(value => {
+          filters[filterKey] && filters[filterKey].forEach(value => {
             breadCrumbs.push({
               displayValue: `Who work with ${value}`,
               section: filterKey,
@@ -154,7 +155,7 @@ export default function ResultBreadcrumbs({ count }) {
           });
           break;
         case "Personal Interests":
-          filters[filterKey].forEach(value => {
+          filters[filterKey] && filters[filterKey].forEach(value => {
             breadCrumbs.push({
               displayValue: `Interested in ${value}`,
               section: filterKey,

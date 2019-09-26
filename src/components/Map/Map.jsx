@@ -1,6 +1,7 @@
 ﻿// DEPENDENCIES
 import React, { useState, useEffect } from "react";
 import pin from "../../assets/pin.png";
+import homePin from "../../assets/homePin.png";
 // import cfnpin from "../../assets/CFNlogopin.png";
 import { useTransition } from "react-spring";
 
@@ -94,7 +95,7 @@ const maploadState = {
 };
 
 export default function Map() {
-  const [{ mapResults, user }] = useStateValue();
+  const [{ mapResults, user, mapUser }] = useStateValue();
   const [infoBoxesWithPushPins, updateInfoBoxesWithPushPins] = useState(
     undefined
   );
@@ -110,7 +111,7 @@ export default function Map() {
   }
 
   useEffect(
-    function() {
+    function () {
       let fakeSave;
       if (mapResults !== undefined) {
         const practices = {};
@@ -126,7 +127,7 @@ export default function Map() {
           };
         });
 
-        const results = Object.keys(practices).map(function(practiceName) {
+        const results = Object.keys(practices).map(function (practiceName) {
           const geocode = practices[practiceName].address.value.geocode;
           const resultItem = {
             location: geocode,
@@ -146,6 +147,22 @@ export default function Map() {
           };
           return resultItem;
         });
+        results.push({
+          location: user["Contact Information"]["Primary Address"].value.geocode,
+          addHandler: "mouseover",
+          infoboxOption: {
+            title: "My Practice",
+            description: "My Practice",
+            // htmlContent: renderInfoBox(practices[practiceName])
+          },
+          pushPinOption: {
+            title: "My Practice",
+            description: "My Practice",
+            color: "#006699",
+            icon: homePin,
+            height: "50px"
+          }
+        })
         fakeSave = setTimeout(() => {
           updateInfoBoxesWithPushPins(results);
         }, 750);
@@ -154,7 +171,7 @@ export default function Map() {
         window.clearTimeout(fakeSave);
       };
     },
-    [mapResults]
+    [mapResults, user]
   );
 
   const transitions = useTransition(infoBoxesWithPushPins === undefined, null, {
@@ -172,8 +189,7 @@ export default function Map() {
       {infoBoxesWithPushPins !== undefined && (
         <ReactBingmaps
           bingmapKey={maploadState.bingmapKey}
-          // center={[42.36127, -71.25996]}
-          center={user["Contact Information"]["Primary Address"].value.geocode}
+          center={mapUser ? mapUser["Contact Information"]["Primary Address"].value.geocode : user["Contact Information"]["Primary Address"].value.geocode}
           infoboxesWithPushPins={infoBoxesWithPushPins}
           zoom={9}
           mapTypeId={"grayscale"}

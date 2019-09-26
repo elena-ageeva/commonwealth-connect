@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan } from "@fortawesome/free-solid-svg-icons";
-
+// STATE
+import { useStateValue } from "../../../../state";
 // STYLES
 import UserProfileItemStyles from "./UserProfileItem.styles";
 import { UserProfilePicture } from "../../..";
@@ -18,6 +19,8 @@ export default function ProfileItem({
   section,
   updateUserList
 }) {
+  const [{ activeItem }] = useStateValue();
+
   const [show, setShow] = useState(item.show);
   function toggleDisplay(section, label) {
     toggleValueDisplay(section, label);
@@ -25,7 +28,7 @@ export default function ProfileItem({
   function updateValue(value, section, item) {
     updateUserValue(value, section, item);
   }
-  function updateValue(ev) {
+  function updateCheckValue(ev) {
     const value = ev.target.name;
     const checked = ev.target.checked;
     updateUserList(section, item.label, value, checked);
@@ -43,7 +46,7 @@ export default function ProfileItem({
     );
   }
   return (
-    <UserProfileItemStyles show={show} type={type} itemHidden={item.hidden}>
+    <UserProfileItemStyles isActive={activeItem && activeItem === item.label} id={item.label} show={show} type={type} itemHidden={item.hidden}>
       {type === "users" && (
         <div className="user__list__item">
           <UserProfilePicture scale={0.6} />
@@ -75,7 +78,7 @@ export default function ProfileItem({
             ) : Array.isArray(item.value) ? (
               item.canEdit ? (
                 <Checkboxalypse
-                  onChange={updateValue}
+                  onChange={updateCheckValue}
                   masterList={item.label}
                   values={item.value}
                 />

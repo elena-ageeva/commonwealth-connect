@@ -4,6 +4,8 @@ import ResultBreadcrumbs from "./ResultBreadcrumbs/ResultBreadcrumbs";
 import ResultItem from "./ResultItem/ResultItem";
 import { Scrollbars } from "react-custom-scrollbars";
 
+import { getDistance } from "../../util/util";
+
 // DEPENDENCIES
 import React, { useEffect, useState } from "react";
 
@@ -26,25 +28,39 @@ import ResultListStyles, { PaginatorStyles } from "./ResultList.styles";
 import { getDisplayName } from "../../util/util";
 
 export default function ResultList() {
-  const [{ directory, filters }, dispatch] = useStateValue();
+  const [{ directory, searchResults, user }, dispatch] = useStateValue();
   const [currentResults, setCurrentResults] = useState(undefined);
   const [activeSort, setActiveSort] = useState(undefined);
   const [sortDirection, setSortDirection] = useState("desc");
   const [searchDuration, setSearchDuration] = useState(750);
-  const [resultPage, setResultPage] = useState(0);
+  const [resultPage, setResultPage] = useState(1);
   const [pages, setPages] = useState(undefined);
+  const maxPages = 7;
   const [directoryLocal, setPaginatedResults] = useState(
-    directory.slice(0 + resultPage * 25, (resultPage + 1) * 25)
+    searchResults.slice(resultPage * 25, (resultPage + 1) * 25)
   );
 
   useEffect(() => {
     let fakeSave;
-    if (directory) {
+    if (searchResults) {
       if (activeSort) {
-        const toSort = [...directory];
+        const toSort = [...searchResults];
         toSort.sort((a, b) => {
           if (sortDirection === "asc") {
-            if (activeSort === "name") {
+            if (activeSort === "Distance") {
+              if (
+                getDistance(user, a, "M") < getDistance(user, b, "M")
+              ) {
+                return -1;
+              }
+              if (
+                getDistance(user, a, "M") > getDistance(user, b, "M")
+              ) {
+                return 1;
+              }
+              return 0;
+            }
+            else if (activeSort === "name") {
               if (
                 getDisplayName(a).toUpperCase() <
                 getDisplayName(b).toUpperCase()
@@ -75,43 +91,56 @@ export default function ResultList() {
             }
           }
           if (sortDirection === "desc") {
-            if (activeSort === "name") {
+            if (activeSort === "Distance") {
               if (
-                getDisplayName(a).toUpperCase() <
-                getDisplayName(b).toUpperCase()
-              ) {
-                return 1;
-              }
-              if (
-                getDisplayName(a).toUpperCase() >
-                getDisplayName(b).toUpperCase()
-              ) {
-                return -1;
-              }
-              return 0;
-            } else {
-              if (
-                a["Contact Information"][activeSort].value.toUpperCase() >
-                b["Contact Information"][activeSort].value.toUpperCase()
+                getDistance(user, a, "M") > getDistance(user, b, "M")
               ) {
                 return -1;
               }
               if (
-                getDisplayName(a).toUpperCase() <
-                getDisplayName(b).toUpperCase()
+                getDistance(user, a, "M") < getDistance(user, b, "M")
               ) {
                 return 1;
               }
               return 0;
-            }
+            } else
+              if (activeSort === "name") {
+                if (
+                  getDisplayName(a).toUpperCase() <
+                  getDisplayName(b).toUpperCase()
+                ) {
+                  return 1;
+                }
+                if (
+                  getDisplayName(a).toUpperCase() >
+                  getDisplayName(b).toUpperCase()
+                ) {
+                  return -1;
+                }
+                return 0;
+              } else {
+                if (
+                  a["Contact Information"][activeSort].value.toUpperCase() >
+                  b["Contact Information"][activeSort].value.toUpperCase()
+                ) {
+                  return -1;
+                }
+                if (
+                  getDisplayName(a).toUpperCase() <
+                  getDisplayName(b).toUpperCase()
+                ) {
+                  return 1;
+                }
+                return 0;
+              }
           }
         });
         setCurrentResults(
-          toSort.slice(0 + resultPage * 25, (resultPage + 1) * 25)
+          toSort.slice((resultPage - 1) * 25, resultPage * 25)
         );
       } else {
         fakeSave = setTimeout(() => {
-          setPages(Math.ceil(directory.length / 25));
+          setPages(Math.ceil(searchResults.length / 25));
           setCurrentResults([...directoryLocal]);
           setSearchDuration(0);
         }, searchDuration);
@@ -120,15 +149,7 @@ export default function ResultList() {
     return () => {
       window.clearTimeout(fakeSave);
     };
-  }, [
-    directoryLocal,
-    activeSort,
-    sortDirection,
-    directory.length,
-    directory,
-    resultPage,
-    searchDuration
-  ]);
+  }, [directoryLocal, activeSort, sortDirection, directory.length, directory, resultPage, searchDuration, searchResults, user]);
 
   function updateSortOrder(sortBy) {
     if (sortBy === activeSort) {
@@ -141,9 +162,14 @@ export default function ResultList() {
 
   useEffect(() => {
     setPaginatedResults(
-      directory.slice(resultPage * 25, (resultPage + 1) * 25)
+      searchResults.slice((resultPage - 1) * 25, resultPage * 25)
     );
-  }, [directory, resultPage]);
+  }, [searchResults, resultPage]);
+
+  useEffect(() => {
+    setPages(Math.ceil(searchResults.length / 25));
+    setResultPage(1);
+  }, [searchResults])
 
   useEffect(() => {
     if (currentResults !== undefined) {
@@ -158,6 +184,25 @@ export default function ResultList() {
     if (page !== resultPage) {
       setResultPage(page);
     }
+  }
+
+  function paginate(currentPageInput) {
+    const currentPage = currentPageInput;
+    const range = pages > maxPages ? maxPages : pages;
+    const totalPages = pages;
+    let start = 1;
+    let paging = [];
+    if (currentPage < (range / 2) + 1) {
+      start = 1;
+    } else if (currentPage >= (totalPages - (range / 2))) {
+      start = Math.floor(totalPages - range + 1);
+    } else {
+      start = (currentPage - Math.floor(range / 2));
+    }
+    for (let i = start; i <= ((start + range) - 1); i++) {
+      paging.push(i);
+    }
+    return paging;
   }
 
   return (
@@ -214,7 +259,7 @@ export default function ResultList() {
                 </th>
                 <th>
                   <button
-                    className={`table__sort__button ${activeSort === "Email" &&
+                    className={`table__sort__button table__sort__button--inactive ${activeSort === "Email" &&
                       "active"}`}
                   >
                     Email
@@ -222,7 +267,7 @@ export default function ResultList() {
                 </th>
                 <th>
                   <button
-                    className={`table__sort__button ${activeSort === "Phone" &&
+                    className={`table__sort__button table__sort__button--inactive ${activeSort === "Phone" &&
                       "active"}`}
                   >
                     Phone
@@ -232,8 +277,17 @@ export default function ResultList() {
                   <button
                     className={`table__sort__button ${activeSort ===
                       "Distance" && "active"}`}
+                    onClick={() => {
+                      updateSortOrder("Distance");
+                    }}
                   >
                     Distance
+                    {activeSort === "Distance" && (
+                      <FontAwesomeIcon
+                        className="column__sort__icon"
+                        icon={sortDirection === "asc" ? faCaretUp : faCaretDown}
+                      />
+                    )}
                   </button>
                 </th>
               </tr>
@@ -245,7 +299,7 @@ export default function ResultList() {
                     <ResultItem
                       key={user.id}
                       index={index}
-                      user={user}
+                      resultItemUser={user}
                     ></ResultItem>
                   );
                 })}
@@ -254,32 +308,31 @@ export default function ResultList() {
         </div>
       </Scrollbars>
       <div className="result__count__wrapper">
-        {currentResults !== undefined && (
+        {currentResults !== undefined && currentResults.length > 0 && (
           <>
-            <PaginatorStyles className="paginator" pages={pages}>
+            <PaginatorStyles className="paginator" pages={pages >= maxPages ? maxPages : pages}>
               <button
                 className="pager"
-                onClick={() => changePage(resultPage > 0 ? resultPage - 1 : 0)}
+                onClick={() => changePage(resultPage > 1 ? resultPage - 1 : 1)}
               >
                 <FontAwesomeIcon
                   className="pagination__icon"
                   icon={faCaretLeft}
                 />
               </button>
-              {new Array(pages).fill(undefined).map((element, index) => {
+              {paginate(resultPage).map((element, index) => {
                 return (
                   <button
                     key={`pagination button ${index}`}
                     className={`${
-                      resultPage === index ? "active pager" : "pager"
-                    }`}
-                    onClick={() => changePage(index)}
+                      resultPage === element ? "active pager" : "pager"}`}
+                    onClick={() => changePage(element)}
                     style={{
-                      fontWeight: `${resultPage === index ? "bold" : "normal"}`,
+                      fontWeight: `${resultPage === element ? "bold" : "normal"}`,
                       fontSize: "1.2rem"
                     }}
                   >
-                    {index + 1}
+                    {element}
                   </button>
                 );
               })}
@@ -287,7 +340,7 @@ export default function ResultList() {
                 className="pager"
                 onClick={() =>
                   changePage(
-                    resultPage < pages - 1 ? resultPage + 1 : pages - 1
+                    resultPage < pages ? resultPage + 1 : pages
                   )
                 }
               >
@@ -298,12 +351,11 @@ export default function ResultList() {
               </button>
             </PaginatorStyles>
             {currentResults !== undefined && (
-              <span>{`Showing ${resultPage * 25 + 1} through ${
-                resultPage < pages - 1
-                  ? 25 * (resultPage + 1)
-                  : directory.length
-              } of ${directory.length} results on page ${resultPage +
-                1} of ${pages}.`}</span>
+              <span>{`Showing ${(resultPage - 1) * 25 + 1} through ${
+                resultPage < pages
+                  ? 25 * (resultPage)
+                  : searchResults.length
+                } of ${searchResults.length} results on page ${resultPage} of ${pages}.`}</span>
             )}
           </>
         )}

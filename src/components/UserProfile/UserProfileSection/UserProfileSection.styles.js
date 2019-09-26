@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 const UserProfileSectionStyles = styled.div`
+  background: ${props => (props.isActive ? "#006699" : "none")};
+  transition: background ${props => (props.isActive ? "0ms" : "1000ms")} ease;
   &:first-child {
     margin-top: 30px;
   }
@@ -31,6 +33,14 @@ const UserProfileSectionStyles = styled.div`
     grid-auto-flow: row;
     grid-auto-rows: min-content;
     grid-gap: ${props => (props.type === "users" ? "0px" : "10px")};
+  }
+
+  .expand__icon {
+    font-size: ${props => props.theme.default.largerFontSize};
+    color: ${props => props.theme.default.lightGray};
+    margin-left: 10px;
+    transform: rotate(${props => (props.expanded ? "180deg" : "0deg")});
+    transition: 200ms all ease-in-out;
   }
 `;
 

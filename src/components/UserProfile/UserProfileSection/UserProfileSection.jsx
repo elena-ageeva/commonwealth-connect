@@ -1,5 +1,8 @@
 ﻿// DEPENDENCIES
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { useStateValue } from "../../../state";
 
 // STYLES
 import UserProfileSectionStyles from "./UserProfileSection.styles";
@@ -8,17 +11,19 @@ import UserProfileSectionStyles from "./UserProfileSection.styles";
 import UserProfileItem from "./UserProfileItem/UserProfileItem";
 
 export default function UserProfileSection({ title, items, type, id }) {
+  const [{ activeSection }] = useStateValue();
+
   const [expanded, setExpanded] = useState(true);
   return (
-    <UserProfileSectionStyles id={id} type={type} expanded={expanded}>
+    <UserProfileSectionStyles isActive={activeSection && activeSection === id} id={id} type={type} expanded={expanded}>
       <div className="user__profile__section__header">
         <button
           onClick={() => setExpanded(!expanded)}
           className="user__profile__section__title"
         >
-          {title}
+          {title}<FontAwesomeIcon className="expand__icon" icon={faCaretDown} />
         </button>
-        {(type === "default" || type === "default--component") && (
+        {(type === "default" || type === "default--component") && expanded && title !== "Contact Information" && (
           <span className="show__label">SHOW IN DIRECTORY?</span>
         )}
       </div>
