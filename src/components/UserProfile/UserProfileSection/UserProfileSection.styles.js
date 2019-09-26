@@ -3,6 +3,9 @@ import styled from "styled-components";
 const UserProfileSectionStyles = styled.div`
   background: ${props => (props.isActive ? "#006699" : "none")};
   transition: background ${props => (props.isActive ? "0ms" : "1000ms")} ease;
+  /* color: ${props =>
+    props.isActive ? "#C4EBFF" : props.theme.default.black};
+  transition: color ${props => (props.isActive ? "0ms" : "2000ms")} ease; */
   &:first-child {
     margin-top: 30px;
   }

@@ -214,6 +214,9 @@ export default function Map() {
     if (miles > 150 && miles <= 250) {
       zoom = 6
     }
+    if (miles > 250) {
+      zoom = 3
+    }
 
     return zoom;
   }

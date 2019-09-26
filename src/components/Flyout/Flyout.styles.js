@@ -95,7 +95,8 @@ const FlyoutStyles = styled(animated.div)`
     cursor: ${props => (props.location === "/profile" ? "pointer" : "default")};
   }
   .flyout__section__link:hover {
-    text-decoration: underline;
+    text-decoration: ${props =>
+      props.location === "/profile" ? "underline" : "none"};
   }
   .flyout__section__item {
     display: grid;

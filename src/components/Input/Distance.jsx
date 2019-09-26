@@ -1,8 +1,6 @@
 ﻿import React, { useState, useEffect } from "react";
 import { DistanceStyles } from "./styles";
 
-import { useStateValue } from "../../state";
-
 
 import { TextInput } from ".";
 
@@ -10,8 +8,8 @@ export default function Distance({ values, onChange }) {
 
   function updateMiles(value) {
     let newValue = value;
-    if (newValue > 250) {
-      newValue = 250
+    if (newValue > 10000) {
+      newValue = 10000
     }
     onChange({ miles: newValue, location: values.location });
   }
